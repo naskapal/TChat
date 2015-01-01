@@ -8,6 +8,8 @@ import java.util.Scanner;
   	private Socket client;
   	private Scanner input;
   	private PrintWriter output;
+  	private Connector koneksi;
+  	private String userName,password;
   	
   	public ClientHandler(Socket socket)
   	{
@@ -27,8 +29,20 @@ import java.util.Scanner;
  	 public void run()
  	 {
  	 	String received;
-  		do
-  		{
+ 	 	output.println("Please Enter Your Login Credentials");
+  			do
+  			{
+  			output.println("username : ");
+  			while (input.hasNext());
+  			userName = input.nextLine();
+  			output.println("password : ");
+  			password = input.nextLine();
+  			if (!koneksi.userLogin(userName, password))
+  				output.println("username and password mismatch");
+  			}while(koneksi.userLogin(userName, password) == false);
+  	  		
+  			do
+  	  		{
   			//Accept message from client on the socket's input stream…
   			received = input.nextLine();
 			System.out.println("Message received");

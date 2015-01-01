@@ -4,7 +4,7 @@ import java.util.*;
 
 
 public class MultiEchoClient{
-	private static byte[] addr ={(byte)192,(byte)168,(byte)155,(byte)1};
+	private static byte[] addr ={(byte)127,(byte)0,(byte)0,(byte)1};
 	private static InetAddress host;
 	private static final int PORT=1234;
 	
@@ -31,13 +31,20 @@ public class MultiEchoClient{
 			networkInput = new Scanner(socket.getInputStream());
 			PrintWriter networkOutput= new PrintWriter(socket.getOutputStream(),true);
 			userEntry = new Scanner(System.in);
-			String message,response;
-			do{
-				System.out.print("Enter message('QUIT' to Exit): ");
+			String message /*, responds */;
+			
+			while (networkInput.hasNextLine())
+				System.out.println("\nServer > "+ networkInput.nextLine());
+			//{
+			System.out.println();	
+				//message= userEntry.nextLine();
+				//networkOutput.println(message);
+			//}
+				//System.out.print("Enter message('QUIT' to Exit): ");
+			do
+			{
 				message= userEntry.nextLine();
 				networkOutput.println(message);
-				response= networkInput.nextLine();
-				System.out.println("\nServer>"+response);
 
 			}
 			while(!message.equals("QUIT"));
@@ -45,6 +52,10 @@ public class MultiEchoClient{
 		catch (IOException ioEx)
 		{
 			ioEx.printStackTrace();
+		}
+		catch (NoSuchElementException noEx)
+		{
+			noEx.printStackTrace();
 		}
 		finally
 		{

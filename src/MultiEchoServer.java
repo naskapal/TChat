@@ -23,7 +23,6 @@ import java.net.Socket;
   		{
   			//Wait for client…
   			Socket client = serverSocket.accept();
-  			System.out.println("\nNew client accepted.\n");
 
   			//Create a thread to handle communication with
   			//this client and pass the constructor for this
