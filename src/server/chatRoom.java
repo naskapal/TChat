@@ -10,7 +10,7 @@ public class chatRoom extends Thread {
 	private static ServerSocket serverSocket;
   	private static final int PORT = 1234;
   	public static ClientHandler[] users = new ClientHandler[50];
-  	private static int i = 0,clientNum = 1;
+  	private static int i = 0;
   	private static Socket client;
 
   	public chatRoom() {acceptConnection();}
@@ -20,7 +20,7 @@ public class chatRoom extends Thread {
   		users[0] = user1;
   		users[1] = user2;
   		i = 0;
-  		notifyUpdate("this is a private chat between user " + user1.getUserNum() + " and user " + user2.getUserNum());
+  		notifyUpdate(/*"this is a private chat between user " + user1.getUserNum() + " and user " + user2.getUserNum()*/"");
   	}
   	private void acceptConnection()
   	{
@@ -54,10 +54,9 @@ public class chatRoom extends Thread {
   			//this client and pass the constructor for this
   			//thread a reference to the relevant socket
 
-  			users[i] = new ClientHandler(client,clientNum,this);
+  			users[i] = new ClientHandler(client,this);
   			users[i].start();
   			i++;
-  			clientNum++;
   			client = null;
   			}
   			}
@@ -66,7 +65,7 @@ public class chatRoom extends Thread {
   	}
   	public void run()
   	{
-  		
+  		acceptConnection();
   	}
   	public void update(String msg)
   	{

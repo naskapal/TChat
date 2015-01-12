@@ -11,16 +11,14 @@ class ClientHandler extends Thread
 	private Socket client;
   	private Scanner input;
   	private PrintWriter output;
-  	private int clientNum;
-  	private String received;
+  	private String received,nickName; //add number behind nickname if similar nick appears
   	private chatRoom room;
   	
-  	public ClientHandler(Socket socket, int clientNum, chatRoom room)
+  	public ClientHandler(Socket socket, chatRoom room)
   	{
   		//Set up reference to associated socket…
   		client = socket;
   		this.room = room;
-		this.clientNum = clientNum;
   		try
   		{
   			input = new Scanner(client.getInputStream());
@@ -31,9 +29,15 @@ class ClientHandler extends Thread
   			ioEx.printStackTrace();
   		}
  	 }
+  	
+  	private void setNick()
+  	{
+  		nickName = input.nextLine();
+  	}
 
  	 public void run()
  	 {
+ 		 setNick();
  		try
   		{
  	 	do
@@ -42,13 +46,13 @@ class ClientHandler extends Thread
  	 		if (received.equals("1"))
  	 		{
  	 			update("please input the user number to chat");
- 	 			int client = input.nextInt();
- 	 			room.privateMessage(clientNum,client);
+ 	 			//int client = input.nextInt();
+ 	 			//room.privateMessage(clientNum,client);
  	 		}
  	 		else
  	 		{
- 	 			System.out.println("user " + clientNum +" : " + received);
- 	 	 		room.notifyUpdate("user " + clientNum +" : " + received);
+ 	 			//System.out.println("user " + clientNum +" : " + received);
+ 	 	 		//room.notifyUpdate("user " + clientNum +" : " + received);
  	 		}
  	 	}while (!received.equals("QUIT")); 
  	 	
@@ -85,8 +89,8 @@ class ClientHandler extends Thread
  	 {
  		output.println(msg);
  	 }
- 	 public int getUserNum()
+ 	 public void setNick(String nickname)
  	 {
- 		 return clientNum;
+ 		 this.nickName = nickname;
  	 }
 }
